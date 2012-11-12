@@ -21,6 +21,7 @@ package com.loopj.android.http;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,8 +61,8 @@ import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
@@ -325,6 +326,24 @@ public class AsyncHttpClient {
      */
     public void get(Context context, String url, AsyncHttpResponseHandler responseHandler) {
         get(context, url, null, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP GET request, with URI
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void get(URI url, AsyncHttpResponseHandler responseHandler) {
+        get(null, url, responseHandler);
+    }
+    
+    /**
+     * Perform a HTTP GET request, with URI
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void get(Context context, URI url, AsyncHttpResponseHandler responseHandler) {
+        sendRequest(httpClient, httpContext, new HttpGet(url), null, responseHandler, context);
     }
 
     /**
